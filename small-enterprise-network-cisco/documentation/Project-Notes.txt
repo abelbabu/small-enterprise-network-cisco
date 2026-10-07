@@ -1,0 +1,33 @@
+SMALL ENTERPRISE NETWORK – QUICK PROJECT NOTES
+
+Topology: R1 -> SW1 -> SW2 R1 -> ISP-R1 SW1 -> PC1, PC0, PC2, SRV1 SW2
+-> PC3, PC4
+
+VLAN 10 ADMIN: 192.168.10.0/24, gateway 192.168.10.1 VLAN 20 EMPLOYEES:
+192.168.20.0/24, gateway 192.168.20.1 VLAN 30 SERVERS: 192.168.30.0/24,
+gateway 192.168.30.1 VLAN 99 MANAGEMENT: 192.168.99.0/24, gateway
+192.168.99.1
+
+Employee PCs: PC0, PC2, PC3, PC4 -> VLAN 20 via DHCP
+
+Admin: PC1 -> VLAN 10 via DHCP
+
+Server: SRV1 -> 192.168.30.10 static
+
+WAN: R1 G0/1 = 203.0.113.1/30 ISP-R1 G0/0 = 203.0.113.2/30 ISP-R1
+Loopback0 = 8.8.8.8/32
+
+Main technologies: VLANs, 802.1Q trunking, Router-on-a-Stick, inter-VLAN
+routing, DHCP, default route, NAT/PAT, extended ACL, SSHv2, SVI,
+management VLAN, port security, sticky MAC, troubleshooting.
+
+Important troubleshooting: 1. NAT initially failed because NAT inside
+was missing on VLAN subinterfaces. 2. Admin-to-Employee ICMP initially
+failed because the ACL also affected return traffic; an echo-reply
+exception fixed it. 3. Port security was re-enabled on a PC port when it
+initially showed disabled.
+
+Useful verification commands: show ip interface brief show ip route show
+ip dhcp binding show ip nat translations show ip access-lists show vlan
+brief show interfaces trunk show port-security show port-security
+address show ip ssh
